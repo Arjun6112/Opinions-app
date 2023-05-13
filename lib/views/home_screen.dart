@@ -21,6 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
         'Message': _opinioncontroller.text,
         'User': FirebaseAuth.instance.currentUser!.email,
         'TimeStamp': Timestamp.now(),
+        'Likes': []
       });
     }
   }
@@ -61,10 +62,12 @@ class _HomeScreenState extends State<HomeScreen> {
                             final post = snapshot.data!.docs[index];
                             return ListTile(
                               title: WallPost(
-                                  message: post['Message'], user: post['User']),
+                                message: post['Message'],
+                                user: post['User'],
+                                likes: List<String>.from(post['Likes'] ?? []),
+                                postId: post.id,
+                              ),
                             );
-                            // return WallPost(
-                            //     message: post['Message'], user: post['User']);
                           });
                     } else if (snapshot.hasError) {
                       return Center(
